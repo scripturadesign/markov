@@ -64,17 +64,17 @@ If you discover any security related issues, please email martindilling@gmail.co
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/scripturadesign/markov".svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/scripturadesign/markov.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/scripturadesign/markov"/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/scripturadesign/markov".svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/scripturadesign/markov".svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/scripturadesign/markov".svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/scripturadesign/markov/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/scripturadesign/markov.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/scripturadesign/markov.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/scripturadesign/markov.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/scripturadesign/markov"
-[link-travis]: https://travis-ci.org/scripturadesign/markov"
-[link-scrutinizer]: https://scrutinizer-ci.com/g/scripturadesign/markov"/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/scripturadesign/markov"
-[link-downloads]: https://packagist.org/packages/scripturadesign/markov"
+[link-packagist]: https://packagist.org/packages/scripturadesign/markov
+[link-travis]: https://travis-ci.org/scripturadesign/markov
+[link-scrutinizer]: https://scrutinizer-ci.com/g/scripturadesign/markov/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/scripturadesign/markov
+[link-downloads]: https://packagist.org/packages/scripturadesign/markov
 [link-author]: https://github.com/martindilling
 [link-contributors]: ../../contributors
