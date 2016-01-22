@@ -92,15 +92,15 @@ class Chain
         $tokens = $this->tokenizer->tokenize($string);
         $count = count($tokens);
 
-        for ($i = 1; $i < $count; $i++) {
+        for ($i = 1; $i < $count; ++$i) {
             $matcher = $tokens[$i - 1];
             $state = $tokens[$i];
 
-            if (!isset($this->history[$matcher][$state])) {
+            if ( ! isset($this->history[$matcher][$state])) {
                 $this->history[$matcher][$state] = 0;
             }
 
-            $this->history[$matcher][$state]++;
+            ++$this->history[$matcher][$state];
         }
 
         $this->needsRecalculation = true;
@@ -113,7 +113,7 @@ class Chain
      */
     private function recalculateMatrix()
     {
-        if (!$this->needsRecalculation) {
+        if ( ! $this->needsRecalculation) {
             return;
         }
 
