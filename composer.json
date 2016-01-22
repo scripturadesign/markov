@@ -1,0 +1,47 @@
+{
+  "name": "scripturadesign/markov",
+  "type": "library",
+  "description": "Markov Chain",
+  "keywords": [
+    "markov chain"
+  ],
+  "homepage": "https://github.com/scripturadesign/markov",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Martin Dilling-Hansen",
+      "email": "martindilling@gmail.com",
+      "homepage": "http://martindilling.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^5.6|^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.0|^5.1",
+    "hamcrest/hamcrest-php": "^1.2",
+    "scrutinizer/ocular": "~1.3",
+    "squizlabs/php_codesniffer": "~2.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Scriptura\\Markov\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Scriptura\\Markov\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "sniff": "./vendor/bin/phpcs src/ --standard=PSR2 --report=summary",
+    "fix": "./vendor/bin/phpcbf src/ --standard=PSR2",
+    "test": "./vendor/bin/phpunit"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}
