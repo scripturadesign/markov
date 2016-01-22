@@ -1,76 +1,148 @@
 <?php
+/**
+ * @package    Scriptura\Markov
+ * @author     Martin Dilling-Hansen <martindilling@gmail.com>
+ * @copyright  Copyright (c) 2016, Martin Dilling-Hansen
+ * @license    http://opensource.org/licenses/MIT MIT License
+ * @link       https://github.com/scripturadesign/markov
+ */
 
 namespace Scriptura\Markov;
 
 class Chain
 {
     /**
-     * @var array
+     * @var Tokenizer
      */
-    private $history;
+    private $tokenizer;
+
+    /**
+     * @var bool
+     */
+    private $needsRecalculation = true;
 
     /**
      * @var array
      */
-    private $matrix;
+    private $history = [];
 
-    public function __construct(array $history = [])
+    /**
+     * @var array
+     */
+    private $matrix = [];
+
+    /**
+     * @param Tokenizer $tokenizer
+     * @param array $history
+     */
+    public function __construct(Tokenizer $tokenizer, array $history = [])
     {
+        $this->tokenizer = $tokenizer;
         $this->history = $history;
 
-        $this->matrix = $this->calculateProbabilies($history);
+        $this->recalculateMatrix();
     }
 
-    public function history()
+    /**
+     * Get the history of the training.
+     *
+     * @param string $key Get only a single entry with this key
+     *
+     * @return array
+     */
+    public function history($key = null)
     {
-        return $this->history;
+        if (is_null($key)) {
+            return $this->history;
+        }
+
+        if (isset($this->history[$key])) {
+            return $this->history[$key];
+        }
+
+        return [];
     }
 
-    public function train(array $tokens)
+    /**
+     * Get the probability matrix calculated from the training.
+     *
+     * @param string $key Get only a single entry with this key
+     *
+     * @return array
+     */
+    public function matrix($key = null)
     {
-        for ($i = 1; $i < count($tokens); $i++) {
+        $this->recalculateMatrix();
 
-            $previous = $tokens[$i - 1];
-            $current = $tokens[$i];
+        if (is_null($key)) {
+            return $this->matrix;
+        }
 
-            if (!isset($this->history[$previous][$current])) {
-                $this->history[$previous][$current] = 0;
+        if (isset($this->matrix[$key])) {
+            return $this->matrix[$key];
+        }
+
+        return [];
+    }
+
+    /**
+     * Train the chain with a given string.
+     *
+     * @param string $string
+     */
+    public function train($string)
+    {
+        $tokens = $this->tokenizer->tokenize($string);
+        $count = count($tokens);
+
+        for ($i = 1; $i < $count; $i++) {
+            $matcher = $tokens[$i - 1];
+            $state = $tokens[$i];
+
+            if (!isset($this->history[$matcher][$state])) {
+                $this->history[$matcher][$state] = 0;
             }
 
-            $this->history[$previous][$current]++;
+            $this->history[$matcher][$state]++;
         }
 
-        $this->matrix = $this->calculateProbabilies($this->history);
+        $this->needsRecalculation = true;
     }
 
-    public function queryHistory($string)
+    /**
+     * Recalculate the probability matrix if it needs recalculation.
+     *
+     * @return array
+     */
+    private function recalculateMatrix()
     {
-        return isset($this->history[$string]) ? $this->history[$string] : [];
-    }
-
-    public function matrix()
-    {
-        return $this->matrix;
-    }
-
-    private function calculateProbabilies(array $history)
-    {
-        $matrix = [];
-
-        foreach ($history as $matcher => $states) {
-            $matrix[$matcher] = $this->calculateMatcherProbability($states);
+        if (!$this->needsRecalculation) {
+            return;
         }
 
-        return $matrix;
+        $this->matrix = [];
+
+        foreach ($this->history as $states => $transitions) {
+            $this->matrix[$states] = $this->calculateTransitionsProbability($transitions);
+        }
+
+        $this->needsRecalculation = false;
     }
 
-    private function calculateMatcherProbability(array $states)
+    /**
+     * Calculate probability for a list of transitions with their occurrence count.
+     *
+     * @param array $transitions
+     *
+     * @return array
+     */
+    private function calculateTransitionsProbability(array $transitions)
     {
         $probabilities = [];
 
-        $total = array_sum($states);
-        foreach ($states as $state => $count) {
-            $probabilities[$state] = $count / $total;
+        $total = array_sum($transitions);
+        foreach ($transitions as $transition => $count) {
+            $probabilities[$transition] = $count / $total;
         }
 
         return $probabilities;
