@@ -1,10 +1,7 @@
 <?php
 /**
- * Copyright (c) 2016 Martin Dilling-Hansen <martindilling@gmail.com>
- *
- * @author Martin Dilling-Hansen <martindilling@gmail.com>
- * @license http://opensource.org/licenses/MIT MIT License
- * @link https://github.com/scripturadesign/markov
+ * Copyright (c) 2016 Martin Dilling-Hansen <martindilling@gmail.com>.
+ * https://github.com/scripturadesign/markov
  */
 
 namespace Scriptura\Markov\Tests;
