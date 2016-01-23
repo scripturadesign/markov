@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2016 Martin Dilling-Hansen <martindilling@gmail.com>.
+ * Copyright (c) 2016 Martin Dilling-Hansen <martindilling@gmail.com>
  * https://github.com/scripturadesign/markov
  */
 

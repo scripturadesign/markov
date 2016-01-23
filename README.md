@@ -14,13 +14,13 @@ WIP
 Via Composer:
 
 ``` bash
-$ composer require scripturadesign/markov"
+$ composer require scripturadesign/markov
 ```
 
 ## Usage
 
 ``` php
-// Not any usage for this, left as part of the skeleton
+// 
 ```
 
 ## Change log
