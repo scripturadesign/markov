@@ -24,7 +24,6 @@ class Chain
     private $matrix = [];
 
     /**
-     * @param Tokenizer $tokenizer
      * @param array $history
      */
     public function __construct(array $history = [])
