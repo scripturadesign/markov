@@ -7,7 +7,6 @@
 namespace Scriptura\Markov\Tests;
 
 use Scriptura\Markov\Chain;
-use Scriptura\Markov\SimpleTokenizer;
 
 class ChainTest extends \PHPUnit_Framework_TestCase
 {
