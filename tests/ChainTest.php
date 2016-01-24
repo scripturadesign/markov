@@ -17,7 +17,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
      */
     public function defaults_to_empty_history()
     {
-        $chain = new Chain(new SimpleTokenizer());
+        $chain = new Chain();
 
         assertThat($chain->history(), is(emptyArray()));
     }
@@ -33,7 +33,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             'a' => ['b' => 1],
             'b' => ['c' => 1],
         ];
-        $chain = new Chain(new SimpleTokenizer(), $history);
+        $chain = new Chain($history);
 
         assertThat($chain->history(), is(identicalTo($history)));
     }
@@ -44,8 +44,8 @@ class ChainTest extends \PHPUnit_Framework_TestCase
      */
     public function training_generates_history()
     {
-        $chain = new Chain(new SimpleTokenizer());
-        $chain->train('a b b b c');
+        $chain = new Chain();
+        $chain->train(['a', 'b', 'b', 'b', 'c']);
 
         $expectedHistory = [
             'a' => ['b' => 1],
@@ -65,8 +65,8 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             'a' => ['b' => 1],
             'b' => ['c' => 1],
         ];
-        $chain = new Chain(new SimpleTokenizer(), $history);
-        $chain->train('a b a');
+        $chain = new Chain($history);
+        $chain->train(['a', 'b', 'a']);
 
         $expectedHistory = [
             'a' => ['b' => 2],
@@ -82,11 +82,11 @@ class ChainTest extends \PHPUnit_Framework_TestCase
      */
     public function train_multiple_times()
     {
-        $chain = new Chain(new SimpleTokenizer());
-        $chain->train('a b c');
-        $chain->train('c a d b');
-        $chain->train('a c d b');
-        $chain->train('c a b e');
+        $chain = new Chain();
+        $chain->train(['a', 'b', 'c']);
+        $chain->train(['c', 'a', 'd', 'b']);
+        $chain->train(['a', 'c', 'd', 'b']);
+        $chain->train(['c', 'a', 'b', 'e']);
 
         $expectedHistory = [
             'a' => ['b' => 2, 'd' => 1, 'c' => 1],
@@ -108,7 +108,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             'a' => ['b' => 1],
             'b' => ['c' => 1],
         ];
-        $chain = new Chain(new SimpleTokenizer(), $history);
+        $chain = new Chain($history);
 
         assertThat($chain->history('no'), is(emptyArray()));
     }
@@ -125,7 +125,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             'c' => ['a' => 2, 'd' => 1],
             'd' => ['b' => 2],
         ];
-        $chain = new Chain(new SimpleTokenizer(), $history);
+        $chain = new Chain($history);
 
         $expected = ['c' => 1, 'e' => 1];
 
@@ -144,7 +144,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             'a' => ['b' => 1],
             'b' => ['b' => 2, 'c' => 1, 'd' => 1],
         ];
-        $chain = new Chain(new SimpleTokenizer(), $history);
+        $chain = new Chain($history);
 
         $expected = [
             'a' => ['b' => 1],
@@ -166,11 +166,11 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             'a' => ['b' => 1],
             'b' => ['b' => 2, 'c' => 1, 'd' => 1],
         ];
-        $chain = new Chain(new SimpleTokenizer(), $history);
+        $chain = new Chain($history);
 
         $matrixBefore = $chain->matrix();
         $chain->matrix();
-        $chain->train('a c c a');
+        $chain->train(['a', 'c', 'c', 'a']);
         $matrixAfter = $chain->matrix();
 
         $expectedBefore = [
@@ -198,7 +198,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             'a' => ['b' => 1],
             'b' => ['b' => 2, 'c' => 1, 'd' => 1],
         ];
-        $chain = new Chain(new SimpleTokenizer(), $history);
+        $chain = new Chain($history);
 
         assertThat($chain->matrix('no'), is(emptyArray()));
     }
@@ -213,7 +213,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             'a' => ['b' => 1],
             'b' => ['b' => 2, 'c' => 1, 'd' => 1],
         ];
-        $chain = new Chain(new SimpleTokenizer(), $history);
+        $chain = new Chain($history);
 
         $expected = ['b' => 0.5, 'c' => 0.25, 'd' => 0.25];
 

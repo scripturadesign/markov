@@ -9,11 +9,6 @@ namespace Scriptura\Markov;
 class Chain
 {
     /**
-     * @var Tokenizer
-     */
-    private $tokenizer;
-
-    /**
      * @var bool
      */
     private $needsRecalculation = true;
@@ -32,9 +27,8 @@ class Chain
      * @param Tokenizer $tokenizer
      * @param array $history
      */
-    public function __construct(Tokenizer $tokenizer, array $history = [])
+    public function __construct(array $history = [])
     {
-        $this->tokenizer = $tokenizer;
         $this->history = $history;
 
         $this->recalculateMatrix();
@@ -85,11 +79,10 @@ class Chain
     /**
      * Train the chain with a given string.
      *
-     * @param string $string
+     * @param array $tokens
      */
-    public function train($string)
+    public function train(array $tokens)
     {
-        $tokens = $this->tokenizer->tokenize($string);
         $count = count($tokens);
 
         for ($i = 1; $i < $count; ++$i) {
