@@ -7,7 +7,9 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-WIP
+Simple Markov Chain implementation.  
+You train it by giving it arrays of tokens. Then you can get the occurrences and probability of 
+tokens after a given token.
 
 ## Install
 
@@ -20,7 +22,45 @@ $ composer require scripturadesign/markov
 ## Usage
 
 ``` php
-// 
+/* Create a new Markov Chain object */
+$chain = new Chain();
+
+
+/* Give it arrays of tokens */
+$chain->train(['a', 'b', 'c']);
+$chain->train(['c', 'a', 'd', 'b']);
+$chain->train(['a', 'c', 'd', 'b']);
+$chain->train(['c', 'a', 'b', 'e']);
+
+
+/* Get all the history of the training */
+$chain->history();
+// [
+//     'a' => ['b' => 2, 'd' => 1, 'c' => 1],
+//     'b' => ['c' => 1, 'e' => 1],
+//     'c' => ['a' => 2, 'd' => 1],
+//     'd' => ['b' => 2],
+// ]
+
+
+/* Get the training history for a given token */
+$chain->history('b');
+// ['c' => 1, 'e' => 1]
+
+
+/* Get the whole probability matrix */
+$chain->matrix();
+// [
+//     'a' => ['b' => 0.5, 'd' => 0.25, 'c' => 0.25],
+//     'b' => ['c' => 0.5, 'e' => 0.5],
+//     'c' => ['a' => 0.66666666666666663, 'd' => 0.33333333333333331],
+//     'd' => ['b' => 1],
+// ]
+
+
+/* Get the probability matrix for a given token */
+$chain->matrix('b');
+// ['c' => 0.5, 'e' => 0.5]
 ```
 
 ## Change log
