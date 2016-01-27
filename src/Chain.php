@@ -14,9 +14,19 @@ class Chain
     private $needsRecalculation = true;
 
     /**
+     * @var int
+     */
+    private $order;
+
+    /**
      * @var array
      */
-    private $history = [];
+    private $states = [];
+
+    /**
+     * @var array
+     */
+    private $transitions = [];
 
     /**
      * @var array
@@ -26,8 +36,9 @@ class Chain
     /**
      * @param array $history
      */
-    public function __construct(array $history = [])
+    public function __construct($order, array $history = [])
     {
+        $this->order = $order;
         $this->history = $history;
 
         $this->recalculateMatrix();
@@ -42,15 +53,10 @@ class Chain
      */
     public function history($key = null)
     {
-        if (is_null($key)) {
-            return $this->history;
-        }
-
-        if (isset($this->history[$key])) {
-            return $this->history[$key];
-        }
-
-        return [];
+        return [
+            $this->states,
+            $this->transitions,
+        ];
     }
 
     /**
@@ -76,26 +82,51 @@ class Chain
     }
 
     /**
-     * Train the chain with a given string.
+     * Learn from an array of tokens.
      *
      * @param array $tokens
      */
-    public function train(array $tokens)
+    public function learn(array $tokens)
     {
+        $tokens[] = '';
         $count = count($tokens);
+        $state = array_fill(0, $this->order, '');
 
-        for ($i = 1; $i < $count; ++$i) {
-            $matcher = $tokens[$i - 1];
-            $state = $tokens[$i];
+        for ($i = 0; $i < $count; ++$i) {
+            $transition = $tokens[$i];
 
-            if (! isset($this->history[$matcher][$state])) {
-                $this->history[$matcher][$state] = 0;
-            }
+            $this->learnPart($state, $transition);
 
-            ++$this->history[$matcher][$state];
+            array_shift($state);
+            array_push($state, $transition);
+        }
+    }
+
+    /**
+     * Learn from an array of tokens.
+     *
+     * @param array $state
+     * @param string $transition
+     */
+    public function learnPart(array $state, $transition)
+    {
+        $key = array_search($state, $this->states);
+
+        if ($key === false) {
+            $this->states[] = $state;
+            $key = count($this->states) - 1;
         }
 
-        $this->needsRecalculation = true;
+        if ( ! isset($this->transitions[$key])) {
+            $this->transitions[$key] = [];
+        }
+
+        if ( ! isset($this->transitions[$key][$transition])) {
+            $this->transitions[$key][$transition] = 0;
+        }
+
+
+        ++$this->transitions[$key][$transition];
     }
 
     /**
