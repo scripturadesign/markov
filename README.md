@@ -22,45 +22,63 @@ $ composer require scripturadesign/markov
 ## Usage
 
 ``` php
-/* Create a new Markov Chain object */
-$chain = new Chain();
+/* Create a new first order Markov Chain object */
+$chain = new Chain(1);
 
 
-/* Give it arrays of tokens */
-$chain->train(['a', 'b', 'c']);
-$chain->train(['c', 'a', 'd', 'b']);
-$chain->train(['a', 'c', 'd', 'b']);
-$chain->train(['c', 'a', 'b', 'e']);
+/* Learn from arrays of tokens */
+$chain->learn(['the', 'falcon', 'likes', 'the', 'snake']);
 
 
 /* Get all the history of the training */
 $chain->history();
 // [
-//     'a' => ['b' => 2, 'd' => 1, 'c' => 1],
-//     'b' => ['c' => 1, 'e' => 1],
-//     'c' => ['a' => 2, 'd' => 1],
-//     'd' => ['b' => 2],
+//     [
+//         0 => [''],
+//         1 => ['the'],
+//         2 => ['falcon'],
+//         3 => ['likes'],
+//         4 => ['snake'],
+//     ],
+//     [
+//         0 => ['the' => 1],
+//         1 => ['falcon' => 1, 'snake' => 1],
+//         2 => ['likes' => 1],
+//         3 => ['the' => 1],
+//         4 => ['' => 1],
+//     ],
 // ]
+```
+
+``` php
+/* Create a new second order Markov Chain object */
+$chain = new Chain(2);
 
 
-/* Get the training history for a given token */
-$chain->history('b');
-// ['c' => 1, 'e' => 1]
+/* Learn from arrays of tokens */
+$chain->learn(['the', 'falcon', 'likes', 'the', 'snake']);
 
 
-/* Get the whole probability matrix */
-$chain->matrix();
+/* Get all the history of the training */
+$chain->history();
 // [
-//     'a' => ['b' => 0.5, 'd' => 0.25, 'c' => 0.25],
-//     'b' => ['c' => 0.5, 'e' => 0.5],
-//     'c' => ['a' => 0.66666666666666663, 'd' => 0.33333333333333331],
-//     'd' => ['b' => 1],
+//     [
+//         0 => ['', ''],
+//         1 => ['', 'the'],
+//         2 => ['the', 'falcon'],
+//         3 => ['falcon', 'likes'],
+//         4 => ['likes', 'the'],
+//         5 => ['the', 'snake'],
+//     ],
+//     [
+//         0 => ['the' => 1],
+//         1 => ['falcon' => 1],
+//         2 => ['likes' => 1],
+//         3 => ['the' => 1],
+//         4 => ['snake' => 1],
+//         5 => ['' => 1],
+//     ],
 // ]
-
-
-/* Get the probability matrix for a given token */
-$chain->matrix('b');
-// ['c' => 0.5, 'e' => 0.5]
 ```
 
 ## Change log
