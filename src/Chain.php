@@ -21,12 +21,12 @@ class Chain
     /**
      * @var array
      */
-    private $states = [];
+    private $states;
 
     /**
      * @var array
      */
-    private $transitions = [];
+    private $transitions;
 
     /**
      * @var array
@@ -34,12 +34,14 @@ class Chain
     private $matrix = [];
 
     /**
+     * @param int $order
      * @param array $history
      */
-    public function __construct($order, array $history = [])
+    public function __construct(int $order, array $history = [])
     {
         $this->order = $order;
-        $this->history = $history;
+        $this->states = $history['states'] ?? [];
+        $this->transitions = $history['transitions'] ?? [];
 
         $this->recalculateMatrix();
     }
@@ -53,9 +55,25 @@ class Chain
      */
     public function history($key = null)
     {
+        if (is_null($key)) {
+            return [
+                'states' => $this->states,
+                'transitions' => $this->transitions,
+            ];
+        }
+
+        $index = array_search($key, $this->states, true);
+
+        if ($index === false) {
+            return [
+                'state' => [],
+                'transitions' => [],
+            ];
+        }
+
         return [
-            $this->states,
-            $this->transitions,
+            'state' => $this->states[$index],
+            'transitions' => $this->transitions[$index],
         ];
     }
 
@@ -74,11 +92,19 @@ class Chain
             return $this->matrix;
         }
 
-        if (isset($this->matrix[$key])) {
-            return $this->matrix[$key];
+        $index = array_search($key, $this->matrix['states'], true);
+
+        if ($index === false) {
+            return [
+                'state' => [],
+                'probabilities' => [],
+            ];
         }
 
-        return [];
+        return [
+            'state' => $this->matrix['states'][$index],
+            'probabilities' => $this->matrix['probabilities'][$index],
+        ];
     }
 
     /**
@@ -100,6 +126,8 @@ class Chain
             array_shift($state);
             array_push($state, $transition);
         }
+
+        $this->needsRecalculation = true;
     }
 
     /**
@@ -117,11 +145,11 @@ class Chain
             $key = count($this->states) - 1;
         }
 
-        if ( ! isset($this->transitions[$key])) {
+        if (!isset($this->transitions[$key])) {
             $this->transitions[$key] = [];
         }
 
-        if ( ! isset($this->transitions[$key][$transition])) {
+        if (!isset($this->transitions[$key][$transition])) {
             $this->transitions[$key][$transition] = 0;
         }
 
@@ -132,18 +160,20 @@ class Chain
     /**
      * Recalculate the probability matrix if it needs recalculation.
      *
-     * @return array
+     * @return array|void
      */
     private function recalculateMatrix()
     {
-        if (! $this->needsRecalculation) {
+        if (!$this->needsRecalculation) {
             return;
         }
 
         $this->matrix = [];
 
-        foreach ($this->history as $states => $transitions) {
-            $this->matrix[$states] = $this->calculateTransitionsProbability($transitions);
+        foreach ($this->states as $index => $state) {
+            $transitions = $this->transitions[$index] ?? [];
+            $this->matrix['states'][$index] = $state;
+            $this->matrix['probabilities'][$index] = $this->calculateTransitionsProbability($transitions);
         }
 
         $this->needsRecalculation = false;
