@@ -19,6 +19,8 @@ $ composer require scripturadesign/markov
 
 ## Usage
 
+!!! Out of date, look in tests for now !!!
+
 ``` php
 /* Create a new first order Markov Chain object */
 $chain = new Chain(1);
