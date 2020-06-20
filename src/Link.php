@@ -8,7 +8,7 @@ class Link
     private bool $needsRecalculation = true;
     private array $state;
     private array $transitions;
-    private array $predictions;
+    private array $predictions = [];
 
     public function __construct(array $state = [], array $transitions = [])
     {
@@ -65,9 +65,13 @@ class Link
         $this->needsRecalculation = true;
     }
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
     public function next() : string
     {
-        $transitions = array_map(fn ($t) => $t * 100, $this->transitions);
+        $transitions = array_map(fn ($t) : int => $t * 100, $this->transitions);
         $rand = random_int(1, (int) array_sum($transitions));
 
         foreach ($transitions as $key => $value) {
@@ -76,5 +80,7 @@ class Link
                 return $key;
             }
         }
+
+        return '';
     }
 }
