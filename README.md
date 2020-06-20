@@ -114,7 +114,7 @@ The MIT License (MIT). Please see [License File][link-license] for more informat
 [ico-downloads]: https://img.shields.io/packagist/dt/scripturadesign/markov.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/scripturadesign/markov
-[link-workflows]: https://github.com/scripturadesign/markov/actions?query=workflow%3Arun-tests+branch%3Amaster
+[link-workflows]: https://github.com/scripturadesign/markov/actions?query=workflow%3ATests+branch%3Amaster
 [link-downloads]: https://packagist.org/packages/scripturadesign/markov
 [link-license]: LICENSE.md
 [link-author]: https://github.com/martindilling
