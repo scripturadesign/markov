@@ -1,19 +1,17 @@
 # Markov Chain
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
-[![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
+[![GitHub Tests Action Status][ico-workflows]][link-workflows]
 [![Total Downloads][ico-downloads]][link-downloads]
+[![Software License][ico-license]][link-license]
 
-Simple Markov Chain implementation.  
+Markov Chain implementation.  
 You train it by giving it arrays of tokens. Then you can get the occurrences and probability of 
 tokens after a given token.
 
-## Install
+## Installation
 
-Via Composer:
+You can install the package via composer:
 
 ``` bash
 $ composer require scripturadesign/markov
@@ -81,29 +79,15 @@ $chain->history();
 // ]
 ```
 
-## Change log
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
 ## Testing
 
 ``` bash
 $ composer test
 ```
 
-## Code Style
+## Change log
 
-Easily check the code style against [PSR-2 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) by running:
-
-``` bash
-$ composer sniff
-```
-
-And automatically fix them with this:
-
-``` bash
-$ composer fix
-```
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
 ## Contributing
 
@@ -120,19 +104,16 @@ If you discover any security related issues, please email martindilling@gmail.co
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File][link-license] for more information.
 
 [ico-version]: https://img.shields.io/packagist/v/scripturadesign/markov.svg?style=flat-square
+[ico-workflows]: https://img.shields.io/github/workflow/status/scripturadesign/markov/run-tests?label=tests
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/scripturadesign/markov/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/scripturadesign/markov.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/scripturadesign/markov.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/scripturadesign/markov.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/scripturadesign/markov
-[link-travis]: https://travis-ci.org/scripturadesign/markov
-[link-scrutinizer]: https://scrutinizer-ci.com/g/scripturadesign/markov/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/scripturadesign/markov
+[link-workflows]: https://github.com/scripturadesign/markov/actions?query=workflow%3Arun-tests+branch%3Amaster
 [link-downloads]: https://packagist.org/packages/scripturadesign/markov
+[link-license]: LICENSE.md
 [link-author]: https://github.com/martindilling
 [link-contributors]: ../../contributors

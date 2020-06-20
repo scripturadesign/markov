@@ -1,80 +1,41 @@
 <?php
-/**
- * Copyright (c) 2016 Martin Dilling-Hansen <martindilling@gmail.com>
- * https://github.com/scripturadesign/markov
- */
+declare(strict_types=1);
 
 namespace Scriptura\Markov;
 
 class Chain
 {
+    private int $order;
     /**
-     * @var bool
+     * @var Link[]
      */
-    private $needsRecalculation = true;
+    private array $history;
+    private array $matrix = [];
 
-    /**
-     * @var int
-     */
-    private $order;
-
-    /**
-     * @var array
-     */
-    private $states;
-
-    /**
-     * @var array
-     */
-    private $transitions;
-
-    /**
-     * @var array
-     */
-    private $matrix = [];
-
-    /**
-     * @param int $order
-     * @param array $history
-     */
     public function __construct(int $order, array $history = [])
     {
         $this->order = $order;
-        $this->states = $history['states'] ?? [];
-        $this->transitions = $history['transitions'] ?? [];
+        $this->history = $history;
+    }
 
-        $this->recalculateMatrix();
+    /**
+     * Get the states in this chain.
+     *
+     * @return array
+     */
+    public function states() : array
+    {
+        return [];
     }
 
     /**
      * Get the history of the training.
      *
-     * @param string $key Get only a single entry with this key
-     *
      * @return array
      */
-    public function history($key = null)
+    public function history() : array
     {
-        if (is_null($key)) {
-            return [
-                'states' => $this->states,
-                'transitions' => $this->transitions,
-            ];
-        }
-
-        $index = array_search($key, $this->states, true);
-
-        if ($index === false) {
-            return [
-                'state' => [],
-                'transitions' => [],
-            ];
-        }
-
-        return [
-            'state' => $this->states[$index],
-            'transitions' => $this->transitions[$index],
-        ];
+        return $this->history;
     }
 
     /**
@@ -86,8 +47,6 @@ class Chain
      */
     public function matrix($key = null)
     {
-        $this->recalculateMatrix();
-
         if (is_null($key)) {
             return $this->matrix;
         }
@@ -112,7 +71,7 @@ class Chain
      *
      * @param array $tokens
      */
-    public function learn(array $tokens)
+    public function learn(array $tokens) : void
     {
         $tokens[] = '';
         $count = count($tokens);
@@ -123,11 +82,11 @@ class Chain
 
             $this->learnPart($state, $transition);
 
+            // Remove head from state
             array_shift($state);
+            // Push next to tail of state
             array_push($state, $transition);
         }
-
-        $this->needsRecalculation = true;
     }
 
     /**
@@ -136,65 +95,26 @@ class Chain
      * @param array $state
      * @param string $transition
      */
-    public function learnPart(array $state, $transition)
+    public function learnPart(array $state, $transition) : void
     {
-        $key = array_search($state, $this->states);
+        $link = $this->find($state);
 
-        if ($key === false) {
-            $this->states[] = $state;
-            $key = count($this->states) - 1;
+        if ($link->isNull()) {
+            $link = new Link($state);
+            $this->history[] = $link;
         }
 
-        if (!isset($this->transitions[$key])) {
-            $this->transitions[$key] = [];
-        }
-
-        if (!isset($this->transitions[$key][$transition])) {
-            $this->transitions[$key][$transition] = 0;
-        }
-
-
-        ++$this->transitions[$key][$transition];
+        $link->add($transition);
     }
 
-    /**
-     * Recalculate the probability matrix if it needs recalculation.
-     *
-     * @return array|void
-     */
-    private function recalculateMatrix()
+    public function find(array $state) : Link
     {
-        if (!$this->needsRecalculation) {
-            return;
+        foreach ($this->history as $link) {
+            if ($link->state() === $state) {
+                return $link;
+            }
         }
 
-        $this->matrix = [];
-
-        foreach ($this->states as $index => $state) {
-            $transitions = $this->transitions[$index] ?? [];
-            $this->matrix['states'][$index] = $state;
-            $this->matrix['probabilities'][$index] = $this->calculateTransitionsProbability($transitions);
-        }
-
-        $this->needsRecalculation = false;
-    }
-
-    /**
-     * Calculate probability for a list of transitions with their occurrence count.
-     *
-     * @param array $transitions
-     *
-     * @return array
-     */
-    private function calculateTransitionsProbability(array $transitions)
-    {
-        $probabilities = [];
-
-        $total = array_sum($transitions);
-        foreach ($transitions as $transition => $count) {
-            $probabilities[$transition] = $count / $total;
-        }
-
-        return $probabilities;
+        return Link::null();
     }
 }
