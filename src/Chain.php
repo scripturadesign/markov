@@ -17,10 +17,13 @@ class Chain
         $this->history = $history;
     }
 
+    public function order() : int
+    {
+        return $this->order;
+    }
+
     /**
-     * Get the history of the training.
-     *
-     * @return array
+     * @return Link[]
      */
     public function history() : array
     {
@@ -28,9 +31,7 @@ class Chain
     }
 
     /**
-     * Learn from an array of tokens.
-     *
-     * @param array $tokens
+     * @param string[] $tokens
      */
     public function learn(array $tokens) : void
     {
@@ -50,12 +51,6 @@ class Chain
         }
     }
 
-    /**
-     * Learn a single state transition.
-     *
-     * @param array $state
-     * @param string $transition
-     */
     public function learnPart(array $state, $transition) : void
     {
         $link = $this->find($state);
@@ -69,9 +64,7 @@ class Chain
     }
 
     /**
-     * Find a link by its state.
-     *
-     * @param array $state
+     * @param string[] $state
      * @return \Scriptura\Markov\Link
      */
     public function find(array $state) : Link

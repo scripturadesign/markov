@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Scriptura\Markov\Tests;
 
-use Scriptura\Markov\Link;
-use Scriptura\Markov\Chain;
 use PHPUnit\Framework\TestCase;
+use Scriptura\Markov\Chain;
+use Scriptura\Markov\Link;
 
 class ChainTest extends TestCase
 {
@@ -18,6 +18,17 @@ class ChainTest extends TestCase
         $chain = new Chain(1);
 
         $this->assertEquals([], $chain->history());
+    }
+
+    /**
+     * @test
+     * @covers \Scriptura\Markov\Chain::order
+     */
+    public function can_get_order() : void
+    {
+        $chain = new Chain(3);
+
+        $this->assertEquals(3, $chain->order());
     }
 
     /**
