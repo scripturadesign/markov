@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Scriptura\Markov\Tests;
 
-use PHPUnit\Framework\TestCase;
-use Scriptura\Markov\Chain;
 use Scriptura\Markov\Link;
+use Scriptura\Markov\Chain;
+use PHPUnit\Framework\TestCase;
 
 class ChainTest extends TestCase
 {
@@ -18,17 +18,6 @@ class ChainTest extends TestCase
         $chain = new Chain(1);
 
         $this->assertEquals([], $chain->history());
-    }
-
-    /**
-     * @test
-     * @covers \Scriptura\Markov\Chain::states
-     */
-    public function defaults_to_empty_states() : void
-    {
-        $chain = new Chain(1);
-
-        $this->assertEquals([], $chain->states());
     }
 
     /**

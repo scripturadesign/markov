@@ -10,22 +10,11 @@ class Chain
      * @var Link[]
      */
     private array $history;
-    private array $matrix = [];
 
     public function __construct(int $order, array $history = [])
     {
         $this->order = $order;
         $this->history = $history;
-    }
-
-    /**
-     * Get the states in this chain.
-     *
-     * @return array
-     */
-    public function states() : array
-    {
-        return [];
     }
 
     /**
@@ -36,34 +25,6 @@ class Chain
     public function history() : array
     {
         return $this->history;
-    }
-
-    /**
-     * Get the probability matrix calculated from the training.
-     *
-     * @param string $key Get only a single entry with this key
-     *
-     * @return array
-     */
-    public function matrix($key = null)
-    {
-        if (is_null($key)) {
-            return $this->matrix;
-        }
-
-        $index = array_search($key, $this->matrix['states'], true);
-
-        if ($index === false) {
-            return [
-                'state' => [],
-                'probabilities' => [],
-            ];
-        }
-
-        return [
-            'state' => $this->matrix['states'][$index],
-            'probabilities' => $this->matrix['probabilities'][$index],
-        ];
     }
 
     /**
@@ -90,7 +51,7 @@ class Chain
     }
 
     /**
-     * Learn from an array of tokens.
+     * Learn a single state transition.
      *
      * @param array $state
      * @param string $transition
@@ -107,6 +68,12 @@ class Chain
         $link->add($transition);
     }
 
+    /**
+     * Find a link by its state.
+     *
+     * @param array $state
+     * @return \Scriptura\Markov\Link
+     */
     public function find(array $state) : Link
     {
         foreach ($this->history as $link) {
