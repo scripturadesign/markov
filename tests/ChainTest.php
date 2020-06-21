@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Scriptura\Markov\Tests;
 
-use Scriptura\Markov\Link;
-use Scriptura\Markov\Chain;
 use PHPUnit\Framework\TestCase;
+use Scriptura\Markov\Chain;
+use Scriptura\Markov\Link;
 
 class ChainTest extends TestCase
 {
