@@ -6,9 +6,7 @@ namespace Scriptura\Markov;
 class Chain
 {
     private int $order;
-    /**
-     * @var Link[]
-     */
+    /** @var Link[] */
     private array $history;
 
     public function __construct(int $order, array $history = [])
@@ -51,7 +49,7 @@ class Chain
         }
     }
 
-    public function learnPart(array $state, $transition) : void
+    public function learnPart(array $state, string $transition) : void
     {
         $link = $this->find($state);
 

@@ -6,27 +6,22 @@ namespace Scriptura\Markov;
 class Link
 {
     private bool $needsRecalculation = true;
-
-    /** @var string[] */
     private array $state;
-
-    /** @var string[] */
     private array $transitions;
-
-    /** @var float[] */
+    /** @var array{string, float}|array<empty, empty> */
     private array $predictions = [];
 
     /**
-     * @param string[] $state
-     * @param string[] $transitions
+     * @param array{int, string}|array<empty, empty> $state
+     * @param array{string, int}|array<empty, empty> $transitions
      */
-    public function __construct(array $state = [], array $transitions = [])
+    final public function __construct(array $state = [], array $transitions = [])
     {
         $this->state = $state;
         $this->transitions = $transitions;
     }
 
-    public static function null() : Link
+    public static function null() : self
     {
         return new static();
     }
@@ -36,25 +31,16 @@ class Link
         return $this->state === [] && $this->transitions === [];
     }
 
-    /**
-     * @return string[]
-     */
     public function state() : array
     {
         return $this->state;
     }
 
-    /**
-     * @return string[]
-     */
     public function transitions() : array
     {
         return $this->transitions;
     }
 
-    /**
-     * @return float[]
-     */
     public function predictions() : array
     {
         if ($this->needsRecalculation) {
@@ -89,7 +75,7 @@ class Link
         $transitions = array_map(fn ($t) : int => $t * 100, $this->transitions);
 
         try {
-            $rand = random_int(0, (int) array_sum($transitions));
+            $rand = random_int(0, array_sum($transitions));
         } catch (\Exception $e) {
             return '';
         }
