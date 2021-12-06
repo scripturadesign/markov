@@ -8,12 +8,12 @@ class Link
     private bool $needsRecalculation = true;
     private array $state;
     private array $transitions;
-    /** @var array{string, float}|array<empty, empty> */
+    /** @var array<string, float> */
     private array $predictions = [];
 
     /**
-     * @param array{int, string}|array<empty, empty> $state
-     * @param array{string, int}|array<empty, empty> $transitions
+     * @param array<int, string> $state
+     * @param array<string, int> $transitions
      */
     final public function __construct(array $state = [], array $transitions = [])
     {
