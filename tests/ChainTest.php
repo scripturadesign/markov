@@ -51,6 +51,7 @@ class ChainTest extends TestCase
     /**
      * @test
      * @covers \Scriptura\Markov\Chain::learn
+     * @covers \Scriptura\Markov\Chain::learnPart
      */
     public function learning_generates_history() : void
     {
@@ -69,6 +70,7 @@ class ChainTest extends TestCase
     /**
      * @test
      * @covers \Scriptura\Markov\Chain::learn
+     * @covers \Scriptura\Markov\Chain::learnPart
      */
     public function learning_builds_on_existing_history() : void
     {
@@ -92,6 +94,7 @@ class ChainTest extends TestCase
     /**
      * @test
      * @covers \Scriptura\Markov\Chain::learn
+     * @covers \Scriptura\Markov\Chain::learnPart
      */
     public function learn_multiple_times() : void
     {

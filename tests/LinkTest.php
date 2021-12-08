@@ -32,6 +32,29 @@ class LinkTest extends TestCase
 
     /**
      * @test
+     * @covers \Scriptura\Markov\Link::null
+     */
+    public function can_construct_null() : void
+    {
+        $link = Link::null();
+
+        $this->assertSame([], $link->state());
+        $this->assertSame([], $link->transitions());
+    }
+
+    /**
+     * @test
+     * @covers \Scriptura\Markov\Link::isNull
+     */
+    public function can_check_if_null() : void
+    {
+        $link = Link::null();
+
+        $this->assertTrue($link->isNull());
+    }
+
+    /**
+     * @test
      * @covers \Scriptura\Markov\Link::add
      */
     public function can_add_transitions() : void
@@ -41,6 +64,25 @@ class LinkTest extends TestCase
         $link->add('b');
         $link->add('c');
         $link->add('d');
+
+        $this->assertSame([
+            'b' => 2,
+            'c' => 1,
+            'd' => 1,
+        ], $link->transitions());
+    }
+
+    /**
+     * @test
+     * @covers \Scriptura\Markov\Link::__construct
+     */
+    public function can_construct_with_transitions() : void
+    {
+        $link = new Link(['a'], [
+            'b' => 2,
+            'c' => 1,
+            'd' => 1,
+        ]);
 
         $this->assertSame([
             'b' => 2,
@@ -82,6 +124,7 @@ class LinkTest extends TestCase
     /**
      * @test
      * @covers \Scriptura\Markov\Link::predictions
+     * @covers \Scriptura\Markov\Link::recalculate
      */
     public function recalculates_predictions() : void
     {
@@ -108,7 +151,7 @@ class LinkTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Link::next
      */
-    public function next() : void
+    public function get_suggestion_to_next() : void
     {
         $link = new Link(['a']);
         $link->add('b');
@@ -125,5 +168,16 @@ class LinkTest extends TestCase
         }
 
         $this->assertGreaterThan($count['c'], $count['b']);
+    }
+
+    /**
+     * @test
+     * @covers \Scriptura\Markov\Link::next
+     */
+    public function next_suggestion_empty() : void
+    {
+        $link = new Link(['a']);
+
+        $this->assertEquals('', $link->next());
     }
 }
