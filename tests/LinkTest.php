@@ -146,38 +146,4 @@ class LinkTest extends TestCase
             'd' => 0.25,
         ], $recalculated);
     }
-
-    /**
-     * @test
-     * @covers \Scriptura\Markov\Link::next
-     */
-    public function get_suggestion_to_next() : void
-    {
-        $link = new Link(['a']);
-        $link->add('b');
-        $link->add('b');
-        $link->add('b');
-        $link->add('b');
-        $link->add('c');
-
-        $count = ['b' => 0, 'c' => 0];
-
-        foreach (range(1, 100) as $index) {
-            $next = $link->next();
-            $count[$next]++;
-        }
-
-        $this->assertGreaterThan($count['c'], $count['b']);
-    }
-
-    /**
-     * @test
-     * @covers \Scriptura\Markov\Link::next
-     */
-    public function next_suggestion_empty() : void
-    {
-        $link = new Link(['a']);
-
-        $this->assertEquals('', $link->next());
-    }
 }

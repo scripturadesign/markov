@@ -69,24 +69,4 @@ class Link
         $this->transitions[$next]++;
         $this->needsRecalculation = true;
     }
-
-    public function next() : string
-    {
-        $transitions = array_map(fn ($t) : int => $t * 100, $this->transitions);
-
-        try {
-            $rand = random_int(0, array_sum($transitions));
-        } catch (\Exception $e) {
-            return '';
-        }
-
-        foreach ($transitions as $key => $value) {
-            $rand -= $value;
-            if ($rand <= 0) {
-                return $key;
-            }
-        }
-
-        return '';
-    }
 }
