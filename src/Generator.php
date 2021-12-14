@@ -45,14 +45,9 @@ class Generator
 
     public function next(Link $link) : string
     {
-        $transitions = array_map(
-            fn ($t) : int => $t * 100,
-            $link->transitions(),
-        );
+        $rand = $this->rng->between(0, array_sum($link->transitions()));
 
-        $rand = $this->rng->between(0, array_sum($transitions));
-
-        foreach ($transitions as $key => $value) {
+        foreach ($link->transitions() as $key => $value) {
             $rand -= $value;
             if ($rand <= 0) {
                 return $key;
