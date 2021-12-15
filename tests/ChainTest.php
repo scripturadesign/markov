@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Scriptura\Markov\Tests;
@@ -13,7 +14,7 @@ class ChainTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Chain::history
      */
-    public function defaults_to_empty_history() : void
+    public function defaults_to_empty_history(): void
     {
         $chain = new Chain(1);
 
@@ -24,7 +25,7 @@ class ChainTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Chain::order
      */
-    public function can_get_order() : void
+    public function can_get_order(): void
     {
         $chain = new Chain(3);
 
@@ -36,7 +37,7 @@ class ChainTest extends TestCase
      * @covers \Scriptura\Markov\Chain::__construct
      * @covers \Scriptura\Markov\Chain::history
      */
-    public function can_create_a_chain_with_history_data() : void
+    public function can_create_a_chain_with_history_data(): void
     {
         $history = [
             new Link([''], ['a' => 1]),
@@ -53,7 +54,7 @@ class ChainTest extends TestCase
      * @covers \Scriptura\Markov\Chain::learn
      * @covers \Scriptura\Markov\Chain::learnPart
      */
-    public function learning_generates_history() : void
+    public function learning_generates_history(): void
     {
         $chain = new Chain(1);
         $chain->learn(['a', 'b']);
@@ -72,7 +73,7 @@ class ChainTest extends TestCase
      * @covers \Scriptura\Markov\Chain::learn
      * @covers \Scriptura\Markov\Chain::learnPart
      */
-    public function learning_builds_on_existing_history() : void
+    public function learning_builds_on_existing_history(): void
     {
         $history = [
             new Link([''], ['a' => 1]),
@@ -96,7 +97,7 @@ class ChainTest extends TestCase
      * @covers \Scriptura\Markov\Chain::learn
      * @covers \Scriptura\Markov\Chain::learnPart
      */
-    public function learn_multiple_times() : void
+    public function learn_multiple_times(): void
     {
         $chain = new Chain(1);
         $chain->learn(['a', 'b']);
@@ -116,7 +117,7 @@ class ChainTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Chain::find
      */
-    public function empty_array_if_get_undefined_key_in_history() : void
+    public function empty_array_if_get_undefined_key_in_history(): void
     {
         $history = [
             new Link([''], ['a' => 1]),
@@ -132,7 +133,7 @@ class ChainTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Chain::find
      */
-    public function get_data_for_a_key_in_history() : void
+    public function get_data_for_a_key_in_history(): void
     {
         $history = [
             new Link([''], ['a' => 1]),
@@ -148,7 +149,7 @@ class ChainTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Chain::history
      */
-    public function history_for_second_order_chain() : void
+    public function history_for_second_order_chain(): void
     {
         $chain = new Chain(2);
         $chain->learn(['a', 'n', 'a', 'n', 'a', 's']);
@@ -168,7 +169,7 @@ class ChainTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Chain::history
      */
-    public function history_for_third_order_chain() : void
+    public function history_for_third_order_chain(): void
     {
         $chain = new Chain(3);
         $chain->learn(['a', 'n', 'a', 'n', 'a', 's']);

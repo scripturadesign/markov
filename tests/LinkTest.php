@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Scriptura\Markov\Tests;
@@ -12,7 +13,7 @@ class LinkTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Link::state
      */
-    public function can_get_state() : void
+    public function can_get_state(): void
     {
         $link = new Link(['a']);
 
@@ -23,7 +24,7 @@ class LinkTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Link::transitions
      */
-    public function defaults_to_empty_transitions() : void
+    public function defaults_to_empty_transitions(): void
     {
         $link = new Link(['a']);
 
@@ -34,7 +35,7 @@ class LinkTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Link::null
      */
-    public function can_construct_null() : void
+    public function can_construct_null(): void
     {
         $link = Link::null();
 
@@ -46,7 +47,7 @@ class LinkTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Link::isNull
      */
-    public function can_check_if_null() : void
+    public function can_check_if_null(): void
     {
         $link = Link::null();
 
@@ -57,7 +58,7 @@ class LinkTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Link::add
      */
-    public function can_add_transitions() : void
+    public function can_add_transitions(): void
     {
         $link = new Link(['a']);
         $link->add('b');
@@ -76,7 +77,7 @@ class LinkTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Link::__construct
      */
-    public function can_construct_with_transitions() : void
+    public function can_construct_with_transitions(): void
     {
         $link = new Link(['a'], [
             'b' => 2,
@@ -95,7 +96,7 @@ class LinkTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Link::predictions
      */
-    public function defaults_to_empty_predictions() : void
+    public function defaults_to_empty_predictions(): void
     {
         $link = new Link(['a']);
 
@@ -106,7 +107,7 @@ class LinkTest extends TestCase
      * @test
      * @covers \Scriptura\Markov\Link::predictions
      */
-    public function calculates_predictions() : void
+    public function calculates_predictions(): void
     {
         $link = new Link(['a']);
         $link->add('b');
@@ -126,7 +127,7 @@ class LinkTest extends TestCase
      * @covers \Scriptura\Markov\Link::predictions
      * @covers \Scriptura\Markov\Link::recalculate
      */
-    public function recalculates_predictions() : void
+    public function recalculates_predictions(): void
     {
         $link = new Link(['a']);
         $link->add('b');

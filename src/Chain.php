@@ -1,21 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Scriptura\Markov;
 
 class Chain
 {
-    private int $order;
-    /** @var Link[] */
-    private array $history;
-
-    public function __construct(int $order, array $history = [])
-    {
-        $this->order = $order;
-        $this->history = $history;
+    public function __construct(
+        private int $order,
+        /** @var Link[] */
+        private array $history = [],
+    ) {
     }
 
-    public function order() : int
+    public function order(): int
     {
         return $this->order;
     }
@@ -23,7 +21,7 @@ class Chain
     /**
      * @return Link[]
      */
-    public function history() : array
+    public function history(): array
     {
         return $this->history;
     }
@@ -31,7 +29,7 @@ class Chain
     /**
      * @param string[] $tokens
      */
-    public function learn(array $tokens) : void
+    public function learn(array $tokens): void
     {
         $tokens[] = '';
         $count = count($tokens);
@@ -49,7 +47,7 @@ class Chain
         }
     }
 
-    public function learnPart(array $state, string $transition) : void
+    public function learnPart(array $state, string $transition): void
     {
         $link = $this->find($state);
 
@@ -65,7 +63,7 @@ class Chain
      * @param string[] $state
      * @return \Scriptura\Markov\Link
      */
-    public function find(array $state) : Link
+    public function find(array $state): Link
     {
         foreach ($this->history as $link) {
             if ($link->state() === $state) {

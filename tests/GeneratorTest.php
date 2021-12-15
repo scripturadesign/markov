@@ -129,7 +129,7 @@ class GeneratorTest extends TestCase
         $chain->learn(['a', 'b']);
         $chain->learn(['a', 'c']);
         $rng = new DeterministicRNG();
-        $rng->determinedResult = 0;
+        $rng->determinedResult = 1;
         $generator = new Generator($rng, $chain);
 
         $this->assertSame(['a', 'b'], $generator->generate());
@@ -145,7 +145,7 @@ class GeneratorTest extends TestCase
         $chain->learn(['a', 'b']);
         $chain->learn(['a', 'c']);
         $rng = new DeterministicRNG();
-        $rng->determinedResult = (1 * 100) + 1;
+        $rng->determinedResult = 2;
         $generator = new Generator($rng, $chain);
 
         $this->assertSame(['a', 'c'], $generator->generate());

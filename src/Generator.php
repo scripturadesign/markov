@@ -6,16 +6,13 @@ use Scriptura\Markov\RNG\RNG;
 
 class Generator
 {
-    private RNG $rng;
-    private Chain $chain;
-
-    public function __construct(RNG $rng, Chain $chain)
-    {
-        $this->rng = $rng;
-        $this->chain = $chain;
+    public function __construct(
+        private RNG $rng,
+        private Chain $chain,
+    ) {
     }
 
-    public function generate() : array
+    public function generate(): array
     {
         $result = [];
         $state = array_fill(0, $this->chain->order(), '');
@@ -43,9 +40,9 @@ class Generator
         return $result;
     }
 
-    public function next(Link $link) : string
+    public function next(Link $link): string
     {
-        $rand = $this->rng->between(0, array_sum($link->transitions()));
+        $rand = $this->rng->between(0, (int) array_sum($link->transitions()));
 
         foreach ($link->transitions() as $key => $value) {
             $rand -= $value;

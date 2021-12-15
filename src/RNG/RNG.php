@@ -11,5 +11,5 @@ interface RNG
      * @param int $max The highest value to be returned, which must be less than or equal to PHP_INT_MAX.
      * @return int Returns a random integer in the range min to max, inclusive.
      */
-    public function between(int $min, int $max) : int;
+    public function between(int $min, int $max): int;
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Scriptura\Markov;
@@ -6,42 +7,38 @@ namespace Scriptura\Markov;
 class Link
 {
     private bool $needsRecalculation = true;
-    private array $state;
-    private array $transitions;
     /** @var array<string, float> */
     private array $predictions = [];
 
-    /**
-     * @param array<int, string> $state
-     * @param array<string, int> $transitions
-     */
-    final public function __construct(array $state = [], array $transitions = [])
-    {
-        $this->state = $state;
-        $this->transitions = $transitions;
+    final public function __construct(
+        /** @var array<int, string> */
+        private array $state = [],
+        /** @var array<string, int> */
+        private array $transitions = [],
+    ) {
     }
 
-    public static function null() : self
+    public static function null(): static
     {
         return new static();
     }
 
-    public function isNull() : bool
+    public function isNull(): bool
     {
         return $this->state === [] && $this->transitions === [];
     }
 
-    public function state() : array
+    public function state(): array
     {
         return $this->state;
     }
 
-    public function transitions() : array
+    public function transitions(): array
     {
         return $this->transitions;
     }
 
-    public function predictions() : array
+    public function predictions(): array
     {
         if ($this->needsRecalculation) {
             $this->recalculate();
@@ -51,7 +48,7 @@ class Link
         return $this->predictions;
     }
 
-    private function recalculate() : void
+    private function recalculate(): void
     {
         $this->predictions = [];
 
@@ -61,7 +58,7 @@ class Link
         }
     }
 
-    public function add(string $next) : void
+    public function add(string $next): void
     {
         if (! isset($this->transitions[$next])) {
             $this->transitions[$next] = 0;
